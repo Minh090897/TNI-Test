@@ -20,8 +20,11 @@ app.add_middleware(
 
 @app.post("/v1/person_detection")
 async def detect_person_api(image: UploadFile = File(...)):
-    image = await image.read()
-    image = cv2.imdecode(np.frombuffer(image, np.uint8), cv2.IMREAD_COLOR)
+    try:
+        image = await image.read()
+        image = cv2.imdecode(np.frombuffer(image, np.uint8), cv2.IMREAD_COLOR)
+    except Exception as e:
+        return HTTPException(status_code=400, detail="Not a valid image")
     bboxes, vbboxes = detect_person(image)
     request_id = str(uuid.uuid4())
     output_filename = f"{request_id}.jpg"
