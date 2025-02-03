@@ -1,7 +1,7 @@
 # Use a Python image with uv pre-installed
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
-RUN apt-get update && apt-get install -y g++
+RUN apt-get update && apt-get install -y g++ ffmpeg libsm6 libxext6
 # Install the project into `/app`
 WORKDIR /app
 
