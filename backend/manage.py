@@ -1,10 +1,12 @@
 import uvicorn
-from fastapi import FastAPI, File, UploadFile
-from fastapi.middleware.cors import CORSMiddleware
-from module.person_detector import detect_person, visualize_and_save
 import cv2
 import numpy as np
 import uuid
+from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+
+from module.person_detector import detect_person, visualize_and_save
+from database.schema import save_detection_to_db
 
 app = FastAPI()
 
@@ -24,6 +26,7 @@ async def detect_person_api(image: UploadFile = File(...)):
     request_id = str(uuid.uuid4())
     output_filename = f"{request_id}.jpg"
     output_path = visualize_and_save(image, bboxes, vbboxes, "./outputs", output_filename)
+    save_detection_to_db(len(bboxes), output_path)
     return {"bboxes": bboxes.tolist(), "vbboxes": vbboxes.tolist(), "people_count": len(bboxes)}
 
 if __name__ == "__main__":
