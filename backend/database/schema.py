@@ -2,9 +2,10 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime, timedelta, timezone
+from config.config import config        
 
 # Create database engine
-DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/people_counter"
+DATABASE_URL = f"postgresql://{config['database']['user']}:{config['database']['password']}@{config['database']['host']}:{config['database']['port']}/{config['database']['name']}"
 engine = create_engine(DATABASE_URL)
 
 Base = declarative_base()
