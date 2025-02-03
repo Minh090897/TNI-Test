@@ -8,14 +8,14 @@ export async function POST(req: Request) {
   const formData = new FormData();
   formData.append('image', new Blob([uint8Array], { type: 'image/png' }), 'image.png',);
 
-  const response = await fetch(`http://localhost:8000/v1/person_detection`, {
+  const response = await fetch(`http://backend:8000/v1/person_detection`, {
     method: "POST",
     body: formData,
   });
 
 
   if (response.status !== 200) {
-    let error = await response.json();
+    const error = await response.json();
     return Response.json({ detail: error.detail }, { status: 500 });
   }
 

@@ -10,7 +10,7 @@ output:
 
 # Database Configuration 
 database:
-  host: "localhost"
+  host: "db"
   port: 5432
   name: "people_counter"
   user: "postgres"

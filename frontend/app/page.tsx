@@ -9,12 +9,19 @@ import { visualizePerson } from "../lib/visualize-person";
 import { XCircle as StartOverIcon } from "lucide-react";
 import { Code as CodeIcon } from "lucide-react";
 
-export default function Home() {
-  const [prediction, setPrediction] = useState(null);
-  const [error, setError] = useState(null);
-  const [userUploadedImage, setUserUploadedImage] = useState(null);
+interface Prediction {
+  bboxes: number[][];      // Array of bounding box coordinates
+  vbboxes: number[][];     // Array of visible bounding box coordinates
+  people_count: number;    // Number of people detected
+  visualize?: string;      // Optional visualization data URL
+}
 
-  const handleSubmit = async (e) => {
+export default function Home() {
+  const [prediction, setPrediction] = useState<Prediction | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [userUploadedImage, setUserUploadedImage] = useState<File | null>(null);
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!userUploadedImage) {
@@ -53,7 +60,7 @@ export default function Home() {
     setUserUploadedImage(null);
   };
 
-  const startOver = async (e) => {
+  const startOver = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setPrediction(null);
     setError(null);
@@ -124,7 +131,7 @@ export default function Home() {
   );
 }
 
-function readAsDataURL(file) {
+function readAsDataURL(file: File) {
   return new Promise((resolve, reject) => {
     const fr = new FileReader();
     fr.onerror = reject;
