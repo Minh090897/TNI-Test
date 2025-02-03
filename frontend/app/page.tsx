@@ -63,25 +63,29 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Inpainting with Ideogram v2 &amp; Replicate</title>
+        <title>People Counter</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
       <main className="container mx-auto p-5">
 
-        <div className="max-w-[min(1024px,100vw-40px)] mx-auto">
-          <button className="bg-black text-white rounded-r-md text-sm font-medium px-4 py-2 flex-none" 
-          onClick={startOver}
-          >
-            <StartOverIcon className="icon" />
-            Start over
-          </button>
-          <button
-            className="bg-black text-white rounded-r-md text-sm font-medium px-4 py-2 flex-none"
-            onClick={handleSubmit}
-          >
-            Inferences
-          </button>
+        <div className="max-w-[min(1024px,100vw-40px)] mx-auto py-4">
+          <div className="flex gap-4">
+            <button 
+              className="bg-black text-white rounded-md text-sm font-medium px-4 py-2 w-1/2" 
+              onClick={startOver}
+            >
+              <StartOverIcon className="icon" />
+              Start over
+            </button>
+            <button
+              className="bg-green-500 text-white rounded-md text-sm font-medium px-4 py-2 w-1/2 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400"
+              disabled={!userUploadedImage}
+              onClick={handleSubmit}
+            >
+              Inferences
+            </button>
+          </div>
         </div>
 
 
@@ -103,6 +107,11 @@ export default function Home() {
         </div>
 
         <div className="max-w-[min(1024px,100vw-40px)] mx-auto">
+          {prediction?.people_count && (
+            <div className="bg-blue-50 p-3 rounded-md mb-5 text-center text-lg">
+              Number of people detected: {prediction.people_count}
+            </div>
+          )}
           {error && <div className="text-red-700 bg-red-50 p-3 rounded-md mb-5">{error}</div>}
 
             <Link href="https://github.com/Minh090897/TNI-Test">
