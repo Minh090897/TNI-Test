@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: people_counter
+      TZ: Asia/Ho_Chi_Minh
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    depends_on:
+      - db
+    build:
+      context: ./backend
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./outputs:/app/outputs
+      - ./backend/config/config.yaml:/app/config/config.yaml
+    command: uv run /app/manage.py
+
+  frontend:
+    depends_on:
+      - backend
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:

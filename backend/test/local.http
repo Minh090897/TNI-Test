@@ -1,4 +1,4 @@
-POST http://localhost:8000/v1/person_detection
+POST http://localhost:8001/v1/person_detection
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 
